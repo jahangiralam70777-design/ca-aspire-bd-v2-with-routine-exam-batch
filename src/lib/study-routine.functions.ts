@@ -520,7 +520,7 @@ const saveRoutineInput = z.object({
   chapter_id: nullableUuid,
   task_type: taskTypeEnum.default("study"),
   study_target: studyTargetEnum.default("study"),
-  estimated_minutes: z.number().int().min(1).max(24 * 60).default(60),
+  estimated_minutes: z.number().int().min(1).max(60 * 24 * 366).default(60),
   priority: priorityEnum.default("medium"),
   default_status: statusEnum.default("pending"),
   due_date: isoDate.nullable().optional(),
