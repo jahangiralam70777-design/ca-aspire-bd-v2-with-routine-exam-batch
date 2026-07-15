@@ -7,7 +7,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-type Ctx = { supabase: SupabaseClient<Database>; userId: string };
+type Ctx = { supabase: SupabaseClient<any>; userId: string };
 // Untyped-schema surfaces (RPCs and tables not present in the generated
 // `Database` typings). Kept as narrowly-typed local shims so we don't leak
 // `any` into the module's public API.
@@ -27,7 +27,7 @@ type UntypedRpc = {
  * boolean. Failures are surfaced explicitly — no silent fallback to a table
  * lookup that could mask a broken deployment.
  */
-async function assertAdmin(sb: SupabaseClient<Database>, userId: string): Promise<void> {
+async function assertAdmin(sb: SupabaseClient<any>, userId: string): Promise<void> {
   const rpc = sb as unknown as UntypedRpc;
   const [adminRes, superRes] = await Promise.all([
     rpc.rpc("has_role", { _user_id: userId, _role: "admin" }),
@@ -52,7 +52,7 @@ async function assertAdmin(sb: SupabaseClient<Database>, userId: string): Promis
 // because assertAdmin has already gated access.
 async function getAdminReader() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  return supabaseAdmin as unknown as SupabaseClient<Database>;
+  return supabaseAdmin as unknown as SupabaseClient<any>;
 }
 
 

@@ -8,7 +8,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-type Ctx = { supabase: SupabaseClient<Database>; userId: string };
+type Ctx = { supabase: SupabaseClient<any>; userId: string };
 
 
 
@@ -35,7 +35,7 @@ export const listStudyRoutines = createServerFn({ method: "POST" })
     listRoutinesInput.parse(i ?? {}),
   )
   .handler(async ({ data, context }) => {
-    const ctx = context as unknown as { supabase: SupabaseClient<Database>; userId: string };
+    const ctx = context as unknown as { supabase: SupabaseClient<any>; userId: string };
     let q = ctx.supabase
       .from("study_routines")
       .select(
@@ -64,7 +64,7 @@ export const upsertStudyRoutine = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((i: z.infer<typeof upsertRoutineInput>) => upsertRoutineInput.parse(i))
   .handler(async ({ data, context }) => {
-    const ctx = context as unknown as { supabase: SupabaseClient<Database>; userId: string };
+    const ctx = context as unknown as { supabase: SupabaseClient<any>; userId: string };
     const sb = ctx.supabase;
     const patch = {
       name: data.name,
@@ -99,7 +99,7 @@ export const deleteStudyRoutine = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((i: z.infer<typeof routineIdInput>) => routineIdInput.parse(i))
   .handler(async ({ data, context }) => {
-    const ctx = context as unknown as { supabase: SupabaseClient<Database>; userId: string };
+    const ctx = context as unknown as { supabase: SupabaseClient<any>; userId: string };
     const sb = ctx.supabase;
     // Delete owned tasks first. The FK is ON DELETE CASCADE after the final
     // consolidated migration, but we also delete explicitly so environments
@@ -129,7 +129,7 @@ export const setStudyRoutineFlags = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((i: z.infer<typeof setFlagsInput>) => setFlagsInput.parse(i))
   .handler(async ({ data, context }) => {
-    const ctx = context as unknown as { supabase: SupabaseClient<Database>; userId: string };
+    const ctx = context as unknown as { supabase: SupabaseClient<any>; userId: string };
     const sb = ctx.supabase;
     const patch: Database["public"]["Tables"]["study_routines"]["Update"] = {};
     if (typeof data.is_active === "boolean") patch.is_active = data.is_active;
@@ -148,7 +148,7 @@ export const duplicateStudyRoutine = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((i: z.infer<typeof routineIdInput>) => routineIdInput.parse(i))
   .handler(async ({ data, context }) => {
-    const ctx = context as unknown as { supabase: SupabaseClient<Database>; userId: string };
+    const ctx = context as unknown as { supabase: SupabaseClient<any>; userId: string };
     const sb = ctx.supabase;
     const { data: src, error: srcErr } = await sb
       .from("study_routines")
@@ -221,7 +221,7 @@ export const listStudyRoutineTasks = createServerFn({ method: "POST" })
     listTasksInput.parse(i ?? {}),
   )
   .handler(async ({ data, context }) => {
-    const ctx = context as unknown as { supabase: SupabaseClient<Database>; userId: string };
+    const ctx = context as unknown as { supabase: SupabaseClient<any>; userId: string };
     let q = ctx.supabase
       .from("study_routine_tasks")
       .select(
@@ -261,7 +261,7 @@ export const upsertStudyRoutineTask = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((i: z.infer<typeof taskInput>) => taskInput.parse(i))
   .handler(async ({ data, context }) => {
-    const ctx = context as unknown as { supabase: SupabaseClient<Database>; userId: string };
+    const ctx = context as unknown as { supabase: SupabaseClient<any>; userId: string };
     const sb = ctx.supabase;
     const { id, ...rest } = data;
     const patch = {
@@ -298,7 +298,7 @@ export const deleteStudyRoutineTask = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((i: z.infer<typeof taskIdInput>) => taskIdInput.parse(i))
   .handler(async ({ data, context }) => {
-    const ctx = context as unknown as { supabase: SupabaseClient<Database>; userId: string };
+    const ctx = context as unknown as { supabase: SupabaseClient<any>; userId: string };
     const sb = ctx.supabase;
     const { error } = await sb
       .from("study_routine_tasks")
@@ -319,7 +319,7 @@ export const setStudyRoutineTaskStatus = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((i: z.infer<typeof setStatusInput>) => setStatusInput.parse(i))
   .handler(async ({ data, context }) => {
-    const ctx = context as unknown as { supabase: SupabaseClient<Database>; userId: string };
+    const ctx = context as unknown as { supabase: SupabaseClient<any>; userId: string };
     const sb = ctx.supabase;
     const patch: Database["public"]["Tables"]["study_routine_tasks"]["Update"] = { status: data.status };
     if (typeof data.completion === "number") patch.completion = data.completion;
@@ -338,7 +338,7 @@ export const duplicateStudyRoutineTask = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((i: z.infer<typeof taskIdInput>) => taskIdInput.parse(i))
   .handler(async ({ data, context }) => {
-    const ctx = context as unknown as { supabase: SupabaseClient<Database>; userId: string };
+    const ctx = context as unknown as { supabase: SupabaseClient<any>; userId: string };
     const sb = ctx.supabase;
     const { data: src, error: srcErr } = await sb
       .from("study_routine_tasks")
@@ -387,7 +387,7 @@ export const duplicateStudyRoutineTask = createServerFn({ method: "POST" })
 export const getStudyRoutineStreak = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const ctx = context as unknown as { supabase: SupabaseClient<Database>; userId: string };
+    const ctx = context as unknown as { supabase: SupabaseClient<any>; userId: string };
     const { data, error } = await ctx.supabase
       .from("study_routine_tasks")
       .select("task_date")

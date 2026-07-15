@@ -14,140 +14,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      study_routine_settings: {
-        Row: {
-          enabled: boolean
-          id: boolean
-          updated_at: string
-          updated_by: string | null
-        }
-        Insert: {
-          enabled?: boolean
-          id?: boolean
-          updated_at?: string
-          updated_by?: string | null
-        }
-        Update: {
-          enabled?: boolean
-          id?: boolean
-          updated_at?: string
-          updated_by?: string | null
-        }
-        Relationships: []
-      }
-      study_routine_tasks: {
-        Row: {
-          chapter_id: string | null
-          completion: number
-          created_at: string
-          description: string | null
-          end_time: string
-          id: string
-          level_code: string | null
-          notes: string | null
-          priority: Database["public"]["Enums"]["study_task_priority"]
-          routine_id: string | null
-          start_time: string
-          status: Database["public"]["Enums"]["study_task_status"]
-          subject_id: string | null
-          task_date: string
-          task_type: Database["public"]["Enums"]["study_task_type"]
-          title: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          chapter_id?: string | null
-          completion?: number
-          created_at?: string
-          description?: string | null
-          end_time?: string
-          id?: string
-          level_code?: string | null
-          notes?: string | null
-          priority?: Database["public"]["Enums"]["study_task_priority"]
-          routine_id?: string | null
-          start_time?: string
-          status?: Database["public"]["Enums"]["study_task_status"]
-          subject_id?: string | null
-          task_date?: string
-          task_type?: Database["public"]["Enums"]["study_task_type"]
-          title: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          chapter_id?: string | null
-          completion?: number
-          created_at?: string
-          description?: string | null
-          end_time?: string
-          id?: string
-          level_code?: string | null
-          notes?: string | null
-          priority?: Database["public"]["Enums"]["study_task_priority"]
-          routine_id?: string | null
-          start_time?: string
-          status?: Database["public"]["Enums"]["study_task_status"]
-          subject_id?: string | null
-          task_date?: string
-          task_type?: Database["public"]["Enums"]["study_task_type"]
-          title?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "study_routine_tasks_routine_id_fkey"
-            columns: ["routine_id"]
-            isOneToOne: false
-            referencedRelation: "study_routines"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      study_routines: {
-        Row: {
-          chapter_id: string | null
-          created_at: string
-          id: string
-          is_active: boolean
-          is_archived: boolean
-          level_code: string | null
-          name: string
-          subject_id: string | null
-          type: Database["public"]["Enums"]["study_routine_type"]
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          chapter_id?: string | null
-          created_at?: string
-          id?: string
-          is_active?: boolean
-          is_archived?: boolean
-          level_code?: string | null
-          name?: string
-          subject_id?: string | null
-          type?: Database["public"]["Enums"]["study_routine_type"]
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          chapter_id?: string | null
-          created_at?: string
-          id?: string
-          is_active?: boolean
-          is_archived?: boolean
-          level_code?: string | null
-          name?: string
-          subject_id?: string | null
-          type?: Database["public"]["Enums"]["study_routine_type"]
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
@@ -156,10 +23,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      study_routine_type: "daily" | "weekly" | "monthly" | "custom"
-      study_task_priority: "low" | "medium" | "high"
-      study_task_status: "pending" | "in_progress" | "completed"
-      study_task_type: "study" | "mcq" | "quiz" | "mock" | "revision" | "custom"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -286,11 +150,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      study_routine_type: ["daily", "weekly", "monthly", "custom"],
-      study_task_priority: ["low", "medium", "high"],
-      study_task_status: ["pending", "in_progress", "completed"],
-      study_task_type: ["study", "mcq", "quiz", "mock", "revision", "custom"],
-    },
+    Enums: {},
   },
 } as const
