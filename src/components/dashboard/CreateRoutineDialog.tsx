@@ -461,26 +461,28 @@ export function CreateRoutineDialog({
                 <FormField
                   label={
                     form.study_target === "study"
-                      ? "Study Duration (min)"
+                      ? "Study Duration (hours)"
                       : form.study_target === "review"
-                        ? "Revision Duration (min)"
-                        : "Exam Duration (min)"
+                        ? "Revision Duration (hours)"
+                        : "Exam Duration (hours)"
                   }
                 >
                   <Input
                     type="number"
-                    min={5}
-                    max={24 * 60}
-                    value={form.estimated_minutes}
-                    onChange={(e) =>
-                      set(
-                        "estimated_minutes",
-                        Math.max(
-                          5,
-                          Math.min(24 * 60, Number(e.target.value) || 60),
-                        ),
-                      )
-                    }
+                    min={1}
+                    step={1}
+                    value={Math.max(
+                      1,
+                      Math.round((form.estimated_minutes || 60) / 60),
+                    )}
+                    onChange={(e) => {
+                      const hours = Math.max(
+                        1,
+                        Math.floor(Number(e.target.value) || 1),
+                      );
+                      set("estimated_minutes", hours * 60);
+                    }}
+                    placeholder="e.g. 1"
                   />
                 </FormField>
               )}
